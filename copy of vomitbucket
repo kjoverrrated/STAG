@@ -1,0 +1,194 @@
+import time
+from time import sleep
+import random
+from colorama import Fore, Back, Style
+## LOWERCASE. ALL UI WILL BE CONVERTED TO LOWERCASE. 
+
+##fix errors caused by punctuation!!!!
+
+running = True
+
+playerName = 'John'
+
+# user input: reading tone
+posUI = ['yes','y','yeah', 'ye', 'sure', 'okay', 'ok', 'k', 'yea', 'yay']
+negUI = ['no', 'n', 'nope', 'nah', 'nay']
+rudeUI = ['gross', 'ew']
+leaveUI = ['exit', 'stop', 'end', 'end game']
+
+dirL = ['left', 'l']
+dirR = ['right', 'r']
+dirU = ['up', 'upwards', 'forwards', 'forward', 'upward', 'onwards', 'onward', 'continue', 'straight']
+dirB = ['nevermind', 'back', 'backward', 'backwards', 'turn around']
+
+dirPrompt = [dirL, dirR, dirU, dirB]
+
+
+## STAG output: responding
+toRude = ['Watch it.']
+
+# see dirPrompt to base all out on any in from that folder.
+toDir = ['Good idea.', 'Are you sure? Alright.', 'Headed that way.', 'You are going that way.']
+
+
+
+
+#location holders
+
+positions = ['Shiloh Museum of Ozark History', 'The Jones Center', 'Parsons Stadium', 'Walter Turnbow Park', 'Community Clinic', 'Phat Tire Bike Shop', 'Shiloh Square', 'Murals Link', 'Tyson Foods', 'Odd Soul Pizza', 'Lisa Academy', 'Razorback Greenway', 'Luther George Park']
+
+
+
+# items dictionary including attack maximum
+#  might consider altering to dictionary per item if variables must be expanded upon
+items = {
+
+  'Sams Club Membership Card' : 5, 
+  'Signed Copy of The Bible' : 100,
+  'Fishing License' : 43
+  
+}
+  
+# what's ahead 
+'''
+wall, danger, item, newPos, posInfo, safe
+
+
+--
+wall causes prompt about walking into a wall
+
+danger = enemy ahead
+
+item = obtainable item is introduced
+
+newPos informs of change and provides an image
+
+posInfo has STAG tell the player about the place
+
+safe means progression choices continue as usual
+
+'''
+
+'''
+options
+
+move, goBack, takeItem, question, fight, talk, 
+
+'''
+
+## IDLE CYCLES
+# depletes the phrase once used.
+# once all phrases in a cycle are used, the cycle changes. 
+# defaults back to '...?' upon all cycle usage.
+
+#cycle 1 of minutes taken without action
+idle1 = ['The great deer massacre of 2009. Ever hear about it? Hunting state, this is. I am shivering just remembering. I lost so many that morning...', 'Tyson Foods is rather good at keeping the chickens out of deer country.', 'Careful visiting Arkansas in autumn. Gets real loud up in the mountains.']
+
+#cycle 2
+idle2 = ['I knew that shift in the grass was unnatural. I should have bolted right then. Only, they were in the sky. We were never safe.', 'I was talking about Bikes Blues and Barbeques. That is why the mountains get so loud.', 'Howdy Yawl! Hehe, thought I would give it a try.']
+
+#cycle 3
+idle3 = ['Are you confused?', 'Try taking action.', 'You know how to take action, right?', 'If you are stuck, go back.', 'I do not think there is anyone here.', 'There is nothing here.', 'Should I... alert someone?', 'Still nothing.', 'Wait! Hear that?!... ... ...it is still nothing.', 'What is it that Einstein said again?']
+
+
+
+def prints(txt):
+    for x in txt:                     # cycle through the text one character at a time
+        print(x, end='', flush=True)  # print one character, no new line, flush buffer
+        sleep(sleeptimer)
+    print() # go to new line
+
+
+#reverts to standard text colour
+def resetfore():
+  print(Style.RESET_ALL)
+
+#colours
+def red():
+  print(Fore.RED)
+
+def green():
+  print(Fore.GREEN)
+  
+def yellow():
+  print(Fore.YELLOW)
+  
+def blue():
+  print(Fore.BLUE)
+  
+def magenta():
+  print(Fore.MAGENTA)
+  
+def cyan():
+  print(Fore.CYAN)
+
+# whenever player talks, it's green.
+def speaking():
+  global ui
+  green()
+  ui = input('>> ')
+  resetfore()
+
+def stag(txt):
+  print(Style.BRIGHT)
+  prints(txt)
+  resetfore()
+
+def end():
+  stag('I hope to see you again soon, ' + playerName + '.')
+  running = False
+
+#true val is 0.09 (<=0.06 for testing)
+sleeptimer = 0.06
+  
+##testing purposes
+
+while running:
+    
+  speaking()
+  ui = str(ui.lower())
+  
+  
+  if ui in posUI:
+    prints('positive')
+  elif ui in negUI:
+    prints('negative')
+  else:
+    prints('unidentifiable.')
+  
+  
+  
+  stag('\nI am STAG. \nIt is very nice to finally meet you.')
+  
+  speaking()
+  
+  if ui in posUI:
+    stag('What\'s that? Where are we?')
+    stag('\nWhy, we\'re right at home, silly.')
+  else:
+    stag('\nScared? Don\'t worry.')
+  
+  # is this out of character?
+  stag('Let us begin with your name. Tell me your name.')
+  
+  speaking()
+
+  # ui can be 'i am jame' and then they have to be called i am jame the whole time so no good
+  playerName = ui
+  
+  stag(playerName + '? I will remember it for a lifetime.')
+
+
+
+  
+'''
+
+NOTES: 
+
+20 jan//
+for testing and perhaps future functional purposes, splitting up the game into separate stages (intro, part 1, part 2, ending 1, ending 2 etc) can help with the testing aspect of the game. currently i've been greeted by stag 27 times.
+
+doing so would also make way for teaching/learning variable carry-over methods, whereforein data obtained from, say, part 1, integrates neatly into part 2, and ending 3, for example. 
+
+
+'''
